@@ -1,38 +1,432 @@
-.App {
-  text-align: center;
+/* #################### global #################### */
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+html,
+body {
+	background: linear-gradient(-45deg, #ee7752, #943ce7, #23a6d5, #23d5ab);
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+
+	height: 100vh;
+	color: #fff;
+	font-family: "Inconsolata", monospace;
+	letter-spacing: 0.1rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+a {
+	text-decoration: none;
 }
 
-.App-link {
-  color: #61dafb;
+button,
+button:active,
+button:focus,
+button:hover {
+	outline: none !important;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.container {
+	max-width: 1100px;
+	margin: auto;
+	padding: 0 20px;
+}
+
+/* #################### Header.js #################### */
+
+.center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+header {
+	height: 300px;
+}
+
+header img {
+	padding-left: 50px;
+	width: 300px;
+	transition: transform 0.3s linear;
+}
+
+header img:hover {
+	cursor: pointer;
+	transform: scale(1.15);
+}
+
+/* #################### Search.js #################### */
+
+.search {
+	height: 100px;
+	display: grid;
+	grid-template-columns: 3fr 1fr;
+	justify-content: center;
+	align-items: center;
+}
+
+@media (max-width: 900px) {
+	.search {
+		grid-template-rows: 1fr 1fr;
+		grid-template-columns: 1fr;
+	}
+}
+
+input[type="text"] {
+	display: block;
+	padding: 10px;
+	font-size: 1.5rem;
+	font-weight: 700;
+	border: 0;
+	outline-color: #46c2c6;
+	color: #24c0dd;
+	border-radius: 5px;
+	width: 90%;
+	margin: auto;
+}
+
+input[type="text"]:focus {
+	box-shadow: 0 0 10px #46c2c6, 0 0 20px #46c2c6, 0 0 30px #46c2c6;
+}
+
+input::-webkit-input-placeholder {
+	font-family: "Inconsolata", monospace;
+}
+input::-moz-placeholder {
+	font-family: "Inconsolata", monospace;
+}
+input::-ms-input-placeholder {
+	font-family: "Inconsolata", monospace;
+}
+input::-moz-placeholder {
+	font-family: "Inconsolata", monospace;
+}
+
+/* #################### PhotoGrid.js #################### */
+
+.grid {
+	display: flex;
+	flex-direction: column;
+	gap: 5vh;
+	overflow: hidden;
+}
+
+@media (max-width: 800px) {
+	.grid {
+		margin-top: 20px;
+	}
+}
+
+.hidden {
+	visibility: hidden;
+}
+
+.buttons {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.buttons button {
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	color: #fff;
+	background-color: #3b2d34;
+	font-size: 1.5rem;
+
+	display: flex;
+	align-items: center;
+
+	transition: color 0.4s ease-in-out;
+}
+
+.buttons button:hover {
+	color: #fff;
+	background-color: #f4991b;
+	cursor: pointer;
+}
+
+.buttons .prev svg,
+.buttons .next svg {
+	transition: transform 0.3s ease-in-out;
+}
+
+.buttons .prev:hover svg {
+	transform: translateX(-5px);
+}
+
+.buttons .next:hover svg {
+	transform: translateX(5px);
+}
+
+.cards {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 1rem;
+	margin-bottom: 10vh;
+}
+
+.notfound {
+	width: 300px;
+	font-size: 2rem;
+	text-align: center;
+	margin: 0 auto;
+}
+
+@media (max-width: 800px) {
+	.cards {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (max-width: 500px) {
+	.cards {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* #################### PhotoItem.js #################### */
+
+.card {
+	cursor: pointer;
+	background-color: transparent;
+	height: 300px;
+	perspective: 1000px;
+}
+
+.card h1 {
+	font-size: 25px;
+	border-bottom: 1px #fff solid;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+}
+
+.card img {
+	width: 100%;
+	height: 300px;
+	object-fit: cover;
+	border-radius: 5px;
+}
+
+.card-inner {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	transition: transform 0.8s;
+	transform-style: preserve-3d;
+}
+
+.card:hover .card-inner {
+	transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+	border-radius: 5px;
+}
+
+.card-back {
+	background-color: #3b2d3480;
+	color: #fff;
+	padding: 20px;
+	transform: rotateY(180deg);
+	overflow: scroll;
+	font-size: 1.1rem;
+}
+.card-back .card-back-title {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.card-back .card-back-title svg {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transform: scale(1.2);
+	fill: rgb(197, 15, 15, 0.8);
+	transition: all 0.2s ease-in;
+}
+.card-back .card-back-title svg:hover {
+	transform: scale(1.2);
+	fill: rgb(197, 15, 15, 1);
+}
+.favorite {
+	fill: rgb(197, 15, 15) !important;
+}
+
+.card li {
+	list-style: none;
+	padding-bottom: 5px;
+}
+
+.sameline {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
+
+/* #################### Checkbox - Alive/Dead #################### */
+
+.boxes {
+	display: grid;
+	grid-template-columns: 1fr;
+}
+
+@media (max-width: 900px) {
+	.boxes {
+		justify-content: center;
+	}
+	.box {
+		justify-content: center;
+		max-width: 80%;
+		margin: 25px auto 25px 0% !important;
+	}
+	.boxes > .box ~ .box {
+		justify-content: flex-start;
+	}
+	.labelone {
+		padding-left: 180px !important;
+	}
+}
+
+@media (max-width: 420px) {
+	.box {
+		margin: 25px auto 25px -12% !important;
+	}
+
+	.labelone {
+		padding-left: 180px !important;
+	}
+}
+
+.box {
+	width: 100%;
+	margin: 25px 0;
+	display: flex;
+	align-items: center;
+	user-select: none;
+}
+
+.box label {
+	font-size: 26px;
+	color: #fff;
+	position: absolute;
+	z-index: 10;
+	padding-left: 50px;
+	cursor: pointer;
+}
+
+.box input {
+	opacity: 0;
+	visibility: hidden;
+	position: absolute;
+}
+
+.box #one:checked ~ .check {
+	border-color: #ff0000;
+	box-shadow: 0px 0px 0px 15px #ff0000 inset;
+}
+
+.box input:checked::after {
+	opacity: 1;
+	transform: scale(1);
+}
+
+.box .check {
+	width: 30px;
+	height: 30px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	border-radius: 100px;
+	background-color: #fff;
+	border: 2px solid #fff;
+	box-shadow: 0px 0px 0px 0px #fff inset;
+	transition: all 0.15s cubic-bezier(0, 1.05, 0.72, 1.07);
+}
+
+.box .check::after {
+	content: "";
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	z-index: 4;
+	position: absolute;
+	transform: scale(0);
+	background-size: 50%;
+	background-image: url("http://s6.picofile.com/d/8392306668/c38c12a0-6db3-47d4-a80c-7dad8fab5186/checkmark.svg");
+	background-repeat: no-repeat;
+	background-position: center;
+	transition-delay: 0.2s !important;
+	transition: all 0.25s cubic-bezier(0, 1.05, 0.72, 1.07);
+}
+
+/* Loading Animation */
+
+.circlesLoading {
+	width: 300px;
+	height: 300px;
+	position: absolute;
+	top: 80%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+.circlesLoading .circle {
+	width: 20%;
+	height: 20%;
+	margin: 0 20px;
+	background-color: #3b2d34;
+	border-radius: 50%;
+	position: absolute;
+	animation: loader 1.5s infinite;
+}
+.circlesLoading .circle:nth-child(1) {
+	left: 0%;
+	animation-delay: 0.1s;
+}
+.circlesLoading .circle:nth-child(2) {
+	left: 25%;
+	animation-delay: 0.2s;
+}
+.circlesLoading .circle:nth-child(3) {
+	left: 50%;
+	animation-delay: 0.4s;
+}
+.circlesLoading .circle:nth-child(4) {
+	left: 75%;
+	animation-delay: 0.6s;
+}
+@keyframes loader {
+	0%,
+	80%,
+	100% {
+		transform: scale(0);
+		opacity: 0;
+	}
+	40% {
+		transform: scale(1);
+		opacity: 1;
+	}
 }

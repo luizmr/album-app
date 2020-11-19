@@ -1,0 +1,48 @@
+{(query.length > 0) &
+				(typeof currentQueryGroup !== "undefined") ? (
+					currentQueryGroup.length < 50 ? (
+						<button
+							className="next hidden"
+							onClick={() => getPage(page + 1)}
+						>
+							<FaArrowCircleRight />
+						</button>
+					) : (
+						<button
+							className="next"
+							onClick={() => getPage(page + 1)}
+						>
+							<FaArrowCircleRight />
+						</button>
+					)
+				) : items.length < 50 || albumId === 100 ? (
+					status ? (
+						local.length < 50 ? (
+							<button
+								className="next hidden"
+								onClick={() => getPage(page + 1)}
+							>
+								<FaArrowCircleRight />
+							</button>
+						) : (
+							<button
+								className="next"
+								onClick={() => getPage(page + 1)}
+							>
+								<FaArrowCircleRight />
+							</button>
+						)
+					) : (
+						<button
+							className="next"
+							onClick={() => getPage(page + 1)}
+						>
+							<FaArrowCircleRight />
+						</button>
+					)
+				) : (
+					<button className="next" onClick={() => getPage(page + 1)}>
+						<FaArrowCircleRight />
+					</button>
+				)}
+			</div>
